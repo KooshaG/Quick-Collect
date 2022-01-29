@@ -1,12 +1,9 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var app = express();
+const express = require('express');
 const apiHelper = require('./API_helper');
-const sapURL = 'https://sapstore.conuhacks.io/';
-const cors = require('cors');
-const db = require('./Firestore');
 const mysql = require('mysql');
+
+const app = express();
+const sapURL = 'https://sapstore.conuhacks.io/';
 
 const connection = mysql.createConnection({
   host: 'localhost',
