@@ -1,4 +1,5 @@
 import './App.css';
+import { Business } from './components/Business';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { Button, CardActionArea, CardActions } from '@mui/material';
@@ -28,6 +29,7 @@ function App() {
           </Card>
         </Grid>
       </Grid>
+      <Business />
     </div>
   );
 }
