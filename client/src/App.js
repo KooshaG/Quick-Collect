@@ -1,23 +1,33 @@
-import logo from './logo.svg';
 import './App.css';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import { Button, CardActionArea, CardActions } from '@mui/material';
+import Grid from '@mui/material/Grid';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Quick Connect</h1>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardActionArea>
+              <CardContent className="HomeGridItem">
+                <h1>Customer</h1>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardActionArea>
+              <CardContent className="HomeGridItem">
+                <h1>Business</h1>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </Grid>
+      </Grid>
     </div>
   );
 }
