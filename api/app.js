@@ -1,18 +1,11 @@
 const express = require('express');
 const apiHelper = require('./API_helper');
-const mysql = require('mysql');
+const db = require('./db');
 
 const app = express();
 const sapURL = 'https://sapstore.conuhacks.io/';
 
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'sampleDB',
-});
-
-connection.connect((err) => {
+db.connect((err) => {
   if (!!err) {
     console.log('Error');
   } else {
@@ -23,7 +16,6 @@ connection.connect((err) => {
 app.get('/customer/:email', (req, res) => {
   console.log('hello');
   res.set({
-    'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
   });
   const path = 'orders/byEmail?email=';
@@ -31,29 +23,30 @@ app.get('/customer/:email', (req, res) => {
   apiHelper
     .make_API_call(sapURL + path + email)
     .then((response) => {
-      const q = query(collection(db, 'bookings'), where('email', '==', email));
-      const querySnapshot = getDocs(q);
+      const sql = `SELECT * FROM bookings WHERE email = '${email}'`;
+      db.query(sql, (err, result) => {
+        if (err) throw err;
 
-      const cutomerOrders = response.json();
-      console.log(cutomerOrders);
-      const map = new Map();
-      querySnapshot.forEach((bookedOrder) =>
-        map.add(bookedOrder.orderId, bookedOrder)
-      );
+        const cutomerOrders = response;
+        const map = new Map();
+        /*result.forEach((bookedOrder) =>
+          map.add(bookedOrder.orderId, bookedOrder)
+        );
+        */
 
-      for (let order of cutomerOrders) {
-        if (map.has(order.orderId)) {
-          order.booked = true;
-          order.booking = map.get(order.orderId);
-        } else {
-          order.booked = false;
+        for (let order of cutomerOrders) {
+          if (map.has(order.orderId)) {
+            order.booked = true;
+            order.booking = map.get(order.orderId);
+          } else {
+            order.booked = false;
+          }
         }
-      }
-
-      res.json(response);
+        res.json(cutomerOrders);
+      });
     })
     .catch((error) => {
-      res.send(error);
+      console.log(error);
     });
 });
 
